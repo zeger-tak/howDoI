@@ -37,5 +37,35 @@ Host github.com
 	User git
 	IdentityFile ~/.ssh/your-email@example.com
 ```
+
+## Step 5: Verify that the setup works
 - Verify personal account `ssh -T git@github-personal`
 - Verify work account `ssh -T git@github.com`
+
+## Step 6: Setup config at startup time
+- Open or create the bash profile: `nano ~/.bash_profile`
+- Add the following into the file:
+```
+# Start SSH agent if not already running
+env=~/.ssh/agent.env
+
+agent_load_env () { test -f "$env" && . "$env" >| /dev/null ; }
+
+agent_start () {
+    (umask 077; ssh-agent >| "$env")
+    . "$env" >| /dev/null
+}
+
+agent_load_env
+
+# Check if agent is running
+if ! kill -0 "$SSH_AGENT_PID" 2>/dev/null; then
+    agent_start
+fi
+
+# Add keys in preferred order
+ssh-add ~/.ssh/key1
+ssh-add ~/.ssh/key2
+```
+The ssh agent will now always be available when using git bash.
+Verify using `source ~/.bash_profile`
