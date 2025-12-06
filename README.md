@@ -1,5 +1,6 @@
 # Contents
 This repository is set up to be a personal knowledge base for stuff I only want to figure out once.
+In some cases, the documentation was added because I did have to figure it out more than once.
 
 ## License
 This repository is licensed under the BSD 3-Clause License.
